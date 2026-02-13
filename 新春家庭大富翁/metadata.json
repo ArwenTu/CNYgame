@@ -1,0 +1,9 @@
+
+{
+  "name": "新春家庭大富翁",
+  "description": "適合 2-6 人玩的春節主題大富翁遊戲，具備連線代碼、智慧問答、默契考驗與成語挑戰等多樣互動功能。",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

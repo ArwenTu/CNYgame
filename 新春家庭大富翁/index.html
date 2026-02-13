@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新春家庭大富翁</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #7f1d1d;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 60%),
+                linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+            background-attachment: fixed;
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Large Transparent "春" Watermark */
+        body::after {
+            content: "春";
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 70vh;
+            font-family: 'Noto Serif TC', serif;
+            color: rgba(255, 215, 0, 0.08);
+            pointer-events: none;
+            z-index: -2;
+            font-weight: 900;
+        }
+
+        /* Glitter & Yuanbao Particle Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(1px 1px at 10% 10%, #fff, transparent),
+                radial-gradient(2px 2px at 20% 50%, #ffd700, transparent),
+                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 25c0-3 3-5 10-5s10 2 10 5-3 5-10 5-10-2-10-5zm3-3c1-1 3-2 7-2s6 1 7 2-1 1-7 1-6 0-7-1z' fill='%23ffd700' fill-opacity='0.15'/%3E%3C/svg%3E"),
+                radial-gradient(1px 1px at 30% 90%, #fff, transparent),
+                radial-gradient(2px 2px at 40% 40%, #ffd700, transparent),
+                radial-gradient(1px 1px at 50% 10%, #fff, transparent),
+                radial-gradient(2px 2px at 60% 70%, #ffd700, transparent),
+                radial-gradient(1px 1px at 70% 30%, #fff, transparent),
+                radial-gradient(2px 2px at 80% 80%, #ffd700, transparent),
+                radial-gradient(1px 1px at 90% 20%, #fff, transparent);
+            background-size: 50% 50%, 50% 50%, 120px 120px;
+            animation: glitter 20s linear infinite;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes glitter {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100%); }
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif TC', serif;
+        }
+
+        /* 3D Dice Styles */
+        .dice-scene {
+          width: 80px;
+          height: 80px;
+          perspective: 600px;
+        }
+        .dice {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          transform-style: preserve-3d;
+          transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .dice-face {
+          position: absolute;
+          width: 80px;
+          height: 80px;
+          background: #fff;
+          border: 3px solid #eab308;
+          border-radius: 12px;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          grid-template-rows: repeat(3, 1fr);
+          gap: 4px;
+          padding: 8px;
+          box-sizing: border-box;
+          box-shadow: inset 0 0 15px rgba(234, 179, 8, 0.3);
+        }
+        .dot { width: 14px; height: 14px; background: #333; border-radius: 50%; justify-self: center; align-self: center; }
+        .dot.red { background: #e11d48; box-shadow: 0 0 5px rgba(225, 29, 72, 0.5); }
+
+        .face-1 { transform: rotateY(0deg) translateZ(40px); }
+        .face-2 { transform: rotateY(90deg) translateZ(40px); }
+        .face-3 { transform: rotateY(180deg) translateZ(40px); }
+        .face-4 { transform: rotateY(-90deg) translateZ(40px); }
+        .face-5 { transform: rotateX(90deg) translateZ(40px); }
+        .face-6 { transform: rotateX(-90deg) translateZ(40px); }
+
+        .dice.roll-1 { transform: rotateX(0deg) rotateY(0deg); }
+        .dice.roll-2 { transform: rotateX(0deg) rotateY(-90deg); }
+        .dice.roll-3 { transform: rotateX(0deg) rotateY(-180deg); }
+        .dice.roll-4 { transform: rotateX(0deg) rotateY(-270deg); }
+        .dice.roll-5 { transform: rotateX(-90deg) rotateY(0deg); }
+        .dice.roll-6 { transform: rotateX(90deg) rotateY(0deg); }
+
+        .dice-spinning {
+          animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+          0% { transform: rotateX(0deg) rotateY(0deg); }
+          100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        /* Fireworks Styles */
+        .firework {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 0.5rem;
+          aspect-ratio: 1;
+          background:
+            radial-gradient(circle, #ff0 0.2rem, #0000 0) 50% 05%,
+            radial-gradient(circle, #ff0 0.3rem, #0000 0) 00% 50%,
+            radial-gradient(circle, #ff0 0.5rem, #0000 0) 50% 95%,
+            radial-gradient(circle, #ff0 0.2rem, #0000 0) 95% 50%,
+            radial-gradient(circle, #ff0 0.3rem, #0000 0) 07% 07%,
+            radial-gradient(circle, #ff0 0.2rem, #0000 0) 93% 93%,
+            radial-gradient(circle, #ff0 0.3rem, #0000 0) 93% 07%,
+            radial-gradient(circle, #ff0 0.2rem, #0000 0) 07% 93%;
+          background-size: 0.5rem 0.5rem;
+          background-repeat: no-repeat;
+          animation: firework 2s infinite;
+        }
+
+        @keyframes firework {
+          0% { transform: translate(-50%, 60vh); width: 0.5rem; opacity: 1; }
+          50% { width: 0.5rem; opacity: 1; }
+          100% { transform: translate(-50%, -50%) scale(10); width: 0.5rem; opacity: 0; }
+        }
+
+        .firework:nth-child(2) { --x: 30vw; --y: -30vh; animation-delay: -0.5s; color: #f0f; }
+        .firework:nth-child(3) { --x: -30vw; --y: -20vh; animation-delay: -1.2s; color: #0ff; }
+        .firework:nth-child(4) { --x: 20vw; --y: -10vh; animation-delay: -0.8s; color: #0f0; }
+
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
